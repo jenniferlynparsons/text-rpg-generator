@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plastic 2.0 - Text-based RPG Engine</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/ui/creator.css">
+    <link rel="stylesheet" href="css/ui/player.css">
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&family=Poppins:wght@300;400;500;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="logo">
+                <h1>Plastic 2.0</h1>
+                <span class="tagline">Text-based RPG Engine</span>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#" data-view="creator" class="active">Creator</a></li>
+                    <li><a href="#" data-view="player">Player</a></li>
+                    <li><a href="#" data-view="templates">Templates</a></li>
+                    <li><a href="#" data-view="settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Creator Interface -->
+            <section id="creator-view" class="view active">
+                <div class="split-view">
+                    <div class="editor-panel">
+                        <div class="toolbar">
+                            <button id="new-game">New</button>
+                            <button id="open-game">Open</button>
+                            <button id="save-game">Save</button>
+                            <button id="export-game">Export</button>
+                            <button id="test-game">Test</button>
+                        </div>
+                        <div class="editor-container">
+                            <textarea id="markdown-editor" placeholder="# Start writing your game here..."></textarea>
+                        </div>
+                        <div class="config-panel">
+                            <h3>Game Configuration</h3>
+                            <div id="config-editor"></div>
+                        </div>
+                    </div>
+                    <div class="preview-panel">
+                        <div class="toolbar">
+                            <select id="preview-mode">
+                                <option value="rendered">Rendered</option>
+                                <option value="structure">Structure</option>
+                                <option value="validation">Validation</option>
+                            </select>
+                        </div>
+                        <div id="preview-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Player Interface -->
+            <section id="player-view" class="view">
+                <div class="game-container">
+                    <div class="game-header">
+                        <h2 id="game-title">Game Title</h2>
+                        <div class="game-controls">
+                            <button id="save-progress">Save</button>
+                            <button id="load-progress">Load</button>
+                            <button id="settings-button">Settings</button>
+                        </div>
+                    </div>
+                    <div class="game-layout">
+                        <div class="sidebar">
+                            <div class="character-panel panel">
+                                <h3>Character</h3>
+                                <div id="character-stats"></div>
+                                <div id="character-meters"></div>
+                            </div>
+                            <div class="inventory-panel panel">
+                                <h3>Inventory</h3>
+                                <div id="inventory-items"></div>
+                            </div>
+                            <div class="quest-panel panel">
+                                <h3>Quests</h3>
+                                <div id="quest-list"></div>
+                            </div>
+                        </div>
+                        <div class="main-content">
+                            <div id="game-content"></div>
+                            <div id="game-options"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Templates Interface -->
+            <section id="templates-view" class="view">
+                <div class="templates-container">
+                    <div class="templates-header">
+                        <h2>Game Templates</h2>
+                        <div class="template-controls">
+                            <input type="text" id="template-search" placeholder="Search templates...">
+                            <select id="template-filter">
+                                <option value="all">All Genres</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="scifi">Sci-Fi</option>
+                                <option value="mystery">Mystery</option>
+                                <option value="horror">Horror</option>
+                                <option value="adventure">Adventure</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="templates-grid" id="templates-list">
+                        <!-- Templates will be dynamically generated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Interface -->
+            <section id="settings-view" class="view">
+                <div class="settings-container">
+                    <h2>Settings</h2>
+                    <div class="settings-group">
+                        <h3>Appearance</h3>
+                        <div class="setting-item">
+                            <label for="theme-selector">Theme</label>
+                            <select id="theme-selector">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="sepia">Sepia</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="font-size">Font Size</label>
+                            <input type="range" id="font-size" min="12" max="24" value="16">
+                            <span id="font-size-value">16px</span>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Editor</h3>
+                        <div class="setting-item">
+                            <label for="auto-save">Auto-save</label>
+                            <input type="checkbox" id="auto-save" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label for="auto-save-interval">Auto-save Interval (seconds)</label>
+                            <input type="number" id="auto-save-interval" min="10" max="300" value="60">
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Player</h3>
+                        <div class="setting-item">
+                            <label for="text-speed">Text Display Speed</label>
+                            <input type="range" id="text-speed" min="1" max="10" value="5">
+                            <span id="text-speed-value">Medium</span>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>System</h3>
+                        <div class="setting-item">
+                            <button id="clear-cache">Clear Local Storage Cache</button>
+                        </div>
+                        <div class="setting-item">
+                            <button id="export-all-data">Export All Data</button>
+                            <button id="import-all-data">Import Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Plastic 2.0 - Text-based RPG Engine. Created with ❤️ for storytellers and game designers.</p>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-container" class="hidden">
+        <div class="modal" id="save-modal">
+            <!-- Save game modal content -->
+        </div>
+        <div class="modal" id="load-modal">
+            <!-- Load game modal content -->
+        </div>
+        <div class="modal" id="export-modal">
+            <!-- Export modal content -->
+        </div>
+        <div class="modal" id="template-modal">
+            <!-- Template details modal content -->
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="src/core/parser.js"></script>
+    <script src="src/core/renderer.js"></script>
+    <script src="src/core/stateManager.js"></script>
+    <script src="src/core/configManager.js"></script>
+
+    <!-- Mediators -->
+    <script src="src/mediators/characterMediator.js"></script>
+    <script src="src/mediators/inventoryMediator.js"></script>
+    <script src="src/mediators/activityMediator.js"></script>
+    <script src="src/mediators/statMediator.js"></script>
+
+    <!-- Models -->
+    <script src="src/models/character.js"></script>
+    <script src="src/models/inventory.js"></script>
+    <script src="src/models/item.js"></script>
+    <script src="src/models/quest.js"></script>
+    <script src="src/models/gameState.js"></script>
+
+    <!-- Utils -->
+    <script src="src/utils/fileSystem.js"></script>
+    <script src="src/utils/exportImport.js"></script>
+    <script src="src/utils/helpers.js"></script>
+
+    <!-- Plugin System -->
+    <script src="src/plugins/pluginManager.js"></script>
+
+    <!-- Main Application -->
+    <script src="src/app.js"></script>
+</body>
+
+</html>
